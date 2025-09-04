@@ -6,11 +6,11 @@ use App\Http\Requests\VisitStoreRequest;
 use App\Http\Requests\VisitUpdateRequest;
 use App\Http\Resources\VisitResource;
 use App\Models\Visit;
-use Illuminate\Http\Request;
 
-class VisitController extends Controller
+
+class ApiVisitController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $visits = Visit::query()->latest('id')->paginate(20);
         return VisitResource::collection($visits);

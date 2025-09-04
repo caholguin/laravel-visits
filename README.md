@@ -1,66 +1,202 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🗺️ Sistema de Gestión de Visitas
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema desarrollado en Laravel 10 para la gestión de visitas con visualización en mapa interactivo.
 
-## About Laravel
+## 📋 Tabla de Contenidos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Requisitos](#requisitos)
+- [Instalación](#instalación)
+- [Configuración de Base de Datos](#configuración-de-base-de-datos)
+- [Configuración del Proyecto](#configuración-del-proyecto)
+- [Migraciones y Seeders](#migraciones-y-seeders)
+- [Ejecutar el Proyecto](#ejecutar-el-proyecto)
+- [Usuarios de Prueba](#usuarios-de-prueba)
+- [Comandos Útiles](#comandos-útiles)
+- [Documentación API](#Documentación API)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🔧 Requisitos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Antes de instalar, asegúrate de tener instalado:
 
-## Learning Laravel
+- **PHP >= 8.1**
+- **Composer >= 2.0**
+- **Node.js >= 22** (para el frontend)
+- **MySQL >= 8.0** o **MariaDB >= 10.3**
+- **Git**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 Instalación
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clonar el Repositorio
+```bash
+git https://github.com/caholguin/laravel-visits.git
+cd laravel-visits
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Instalar Dependencias de PHP
+```bash
+composer install
+```
 
-## Laravel Sponsors
+### 3. Instalar Dependencias de Node.js (si aplica)
+```bash
+npm install
+# o si usas yarn
+yarn install
+# o si usas bun
+bun install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## 🗄️ Configuración de Base de Datos
 
-### Premium Partners
+### 1. Crear Base de Datos
+```sql
+-- Conectar a MySQL
+mysql -u root -p
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+-- Crear la base de datos
+CREATE DATABASE visits CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-## Contributing
+-- Crear usuario (opcional pero recomendado)
+CREATE USER 'visitas_user'@'localhost' IDENTIFIED BY 'tu_password_seguro';
+GRANT ALL PRIVILEGES ON sistema_visitas.* TO 'visitas_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Configurar Variables de Entorno
+```bash
+# Copiar archivo de configuración
+cp .env.example .env
+```
 
-## Code of Conduct
+Edita el archivo `.env` con tu configuración:
+```env
+APP_NAME="Laravel"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+LOG_CHANNEL=stack
 
-## Security Vulnerabilities
+# Configuración de Base de Datos
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=visits
+DB_USERNAME=visitas_user
+DB_PASSWORD=tu_password_seguro
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Configuración de Email (opcional)
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
 
-## License
+## ⚙️ Configuración del Proyecto
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 1. Generar Clave de Aplicación
+```bash
+php artisan key:generate
+```
+
+## 🗃️ Migraciones y Seeders
+
+### 1. Ejecutar Migraciones
+```bash
+# Ejecutar todas las migraciones
+php artisan migrate
+```
+
+### 2. Ejecutar Seeders
+```bash
+# Ejecutar todos los seeders
+php artisan db:seed
+
+# O ejecutar seeder específico
+php artisan db:seed --class=UserSeeder
+```
+
+### 3. Resetear y Poblar Base de Datos (Desarrollo)
+```bash
+# ⚠️ CUIDADO: Esto borrará todos los datos existentes
+php artisan migrate:fresh --seed
+```
+
+## 🎯 Ejecutar el Proyecto
+
+### 1. Iniciar Servidor de Desarrollo
+```bash
+php artisan serve
+```
+
+### 2. Compilar Assets (si aplica)
+```bash
+# Desarrollo
+npm run dev
+
+# Producción
+npm run build
+
+# Modo watch (desarrollo)
+npm run watch
+```
+
+### 3. Acceder a la Aplicación
+- **URL Principal:** http://127.0.0.1:8000
+
+## 👤 Usuarios de Prueba
+
+Después de ejecutar los seeders, tendrás acceso a estos usuarios:
+
+### 🔐 Administrador
+- **Email:** `admin@ejemplo.com`
+- **Contraseña:** `12345678`
+
+## 🛠️ Comandos Útiles
+
+### Comandos de Base de Datos
+```bash
+# Ver estado de migraciones
+php artisan migrate:status
+
+# Rollback última migración
+php artisan migrate:rollback
+
+# Rollback todas las migraciones
+php artisan migrate:reset
+
+# Refrescar migraciones con seeders
+php artisan migrate:refresh --seed
+```
+
+### Comandos de Cache
+```bash
+# Limpiar cache
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+# Optimizar para producción
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+### Comando Personalizado para Visitas
+```bash
+# Crear nueva visita (comando personalizado)
+php artisan visit:create
+```
+
+### Documentación API
+
+En la carpeta Api-Postman encontraras un archivo json donde se encuentra la documentacion en postman para ser importada y ejecutar los endpoint creados
+
+
